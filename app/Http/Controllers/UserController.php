@@ -439,13 +439,10 @@ private function generateSerialNumber()
         $query->where('status', $request->status);
     }
 
-    $users = $query->latest()->paginate(20);
+    $users = $query->latest()->paginate(20)->withQueryString();
 
     // Statistics based on custom roles
-    $statsQuery = User::query();
-    if ($isRegionalAdmin) {
-        $statsQuery->where('region_id', $user->region_id);
-    }
+    $statsQuery = clone $query;
 
     $totalUsers = (clone $statsQuery)->count();
     $activeUsers = (clone $statsQuery)->where('status', 'active')->count();

@@ -414,10 +414,11 @@ public function downloadTemplate()
 
 
         // Get summary statistics
-        $totalAssets = Asset::count();
-        $availableCount = Asset::where('status', 'available')->count();
-        $assignedCount = Asset::where('status', 'assigned')->count();
-        $maintenanceCount = Asset::where('status', 'maintenance')->count();
+        $statsQuery = clone $query;
+        $totalAssets = (clone $statsQuery)->count();
+        $availableCount = (clone $statsQuery)->where('status', 'available')->count();
+        $assignedCount = (clone $statsQuery)->where('status', 'assigned')->count();
+        $maintenanceCount = (clone $statsQuery)->where('status', 'maintenance')->count();
 
         // Paginate results
         $assets = $query->latest('created_at')->paginate(20)->withQueryString();

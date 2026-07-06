@@ -55,6 +55,20 @@ class Court extends Model
                 $court->slug = $slug;
             }
         });
+
+        static::deleting(function($court) {
+            if ($court->isForceDeleting()) {
+                // Handle force delete
+                $court->assets()->forceDelete();
+            } else {
+                // Handle soft delete
+                $court->assets()->delete();
+            }
+        });
+
+        static::restoring(function($court) {
+            $court->assets()->restore();
+        });
     }
 
     public function getRouteKeyName()
@@ -303,25 +317,4 @@ class Court extends Model
         ];
     }
 
-    /**
-     * Boot method for model events
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::deleting(function($court) {
-            if ($court->isForceDeleting()) {
-                // Handle force delete
-                $court->assets()->forceDelete();
-            } else {
-                // Handle soft delete
-                $court->assets()->delete();
-            }
-        });
-
-        static::restoring(function($court) {
-            $court->assets()->restore();
-        });
-    }
 }

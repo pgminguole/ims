@@ -38,7 +38,14 @@ class LocationController extends Controller
             $query->where('is_active', $request->is_active);
         }
 
-        $locations = $query->orderBy('name')->paginate(20);
+        $locations = $query->orderBy('name')->paginate(20)->withQueryString();
+        
+        $statsQuery = clone $query;
+        $totalLocations = (clone $statsQuery)->count();
+        $activeLocations = (clone $statsQuery)->where('is_active', true)->count();
+        $totalBuildings = (clone $statsQuery)->distinct('building')->count('building');
+        // Calculate total assets efficiently over the filtered query
+        $totalAssets = (clone $statsQuery)->withCount('assets')->get()->sum('assets_count');
         
         $regionsQuery = Region::query();
         if ($isRegionalAdmin) {
@@ -46,7 +53,7 @@ class LocationController extends Controller
         }
         $regions = $regionsQuery->get();
 
-        return view('locations.index', compact('locations', 'regions'));
+        return view('locations.index', compact('locations', 'regions', 'totalLocations', 'activeLocations', 'totalBuildings', 'totalAssets'));
     }
 
     public function create()

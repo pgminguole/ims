@@ -22,7 +22,7 @@
         <div class="stunning-card metric-v2">
             <div>
                 <div class="metric-v2-label">Total Locations</div>
-                <div class="metric-v2-value">{{ $locations->total() }}</div>
+                <div class="metric-v2-value">{{ $totalLocations }}</div>
                 <div class="text-tiny text-muted mt-2">Registered Sites</div>
             </div>
             <div class="metric-v2-icon">
@@ -34,7 +34,7 @@
         <div class="stunning-card metric-v2">
             <div>
                 <div class="metric-v2-label">Active Sites</div>
-                <div class="metric-v2-value">{{ $locations->where('is_active', true)->count() }}</div>
+                <div class="metric-v2-value">{{ $activeLocations }}</div>
                 <div class="text-tiny text-success mt-2">Operational</div>
             </div>
             <div class="metric-v2-icon">
@@ -46,7 +46,7 @@
         <div class="stunning-card metric-v2">
             <div>
                 <div class="metric-v2-label">Total Buildings</div>
-                <div class="metric-v2-value">{{ $locations->unique('building')->count() }}</div>
+                <div class="metric-v2-value">{{ $totalBuildings }}</div>
                 <div class="text-tiny text-muted mt-2">Physical Structures</div>
             </div>
             <div class="metric-v2-icon">
@@ -58,7 +58,7 @@
         <div class="stunning-card metric-v2">
             <div>
                 <div class="metric-v2-label">Assets Housed</div>
-                <div class="metric-v2-value">{{ $locations->sum(fn($l) => $l->assets->count()) }}</div>
+                <div class="metric-v2-value">{{ $totalAssets }}</div>
                 <div class="text-tiny text-muted mt-2">In Locations</div>
             </div>
             <div class="metric-v2-icon">

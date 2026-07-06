@@ -323,17 +323,14 @@ public function changeDtsDate(Request $request)
         $query->where('is_active', $request->is_active);
     }
 
-    $courts = $query->latest()->paginate(20);
+    $courts = $query->latest()->paginate(20)->withQueryString();
     
     $queries = \DB::getQueryLog();
     Log::info('All executed queries:', $queries);
     Log::info('Courts found: ' . $courts->total());
 
     // Statistics - also use withDeviceCounts for consistency
-    $statsQuery = Court::query();
-    if ($isRegionalAdmin) {
-        $statsQuery->where('region_id', $user->region_id);
-    }
+    $statsQuery = clone $query;
 
     $totalCourts = (clone $statsQuery)->count();
     $activeCourts = (clone $statsQuery)->where('is_active', true)->count();
