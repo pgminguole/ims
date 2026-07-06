@@ -88,7 +88,7 @@
                 <h6 class="card-title-small"><i class="fas fa-filter text-muted me-2"></i>User Filters</h6>
                 <div class="d-flex align-items-center gap-2">
                     @if(request()->hasAny(['search', 'role', 'status']))
-                        <a href="{{ route('users') }}" class="text-tiny text-danger text-decoration-none fw-bold"><i class="fas fa-times me-1"></i>CLEAR</a>
+                        <a href="{{ route('users.index') }}" class="text-tiny text-danger text-decoration-none fw-bold"><i class="fas fa-times me-1"></i>CLEAR</a>
                     @endif
                     <i class="fas fa-chevron-down text-muted text-tiny"></i>
                 </div>

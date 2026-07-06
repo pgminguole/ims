@@ -80,7 +80,7 @@
                 <h6 class="card-title-small"><i class="fas fa-filter text-muted me-2"></i>Court Filters</h6>
                 <div class="d-flex align-items-center gap-2">
                     @if(request()->hasAny(['search', 'region_id', 'type', 'is_active']))
-                        <a href="{{ route('courts') }}" class="text-tiny text-danger text-decoration-none fw-bold"><i class="fas fa-times me-1"></i>CLEAR</a>
+                        <a href="{{ route('courts.index') }}" class="text-tiny text-danger text-decoration-none fw-bold"><i class="fas fa-times me-1"></i>CLEAR</a>
                     @endif
                     <i class="fas fa-chevron-down text-muted text-tiny"></i>
                 </div>
