@@ -1,0 +1,279 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Theme Colors */
+    --primary-gold: #FFD25D;
+    --primary-gold-hover: #e6bd54;
+    --bg-warm: #F9F7F2;
+    --bg-sidebar: #ffffff;
+    --text-dark: #1a1a1a;
+    --text-muted: #6b7280;
+    --text-light: #9ca3af;
+
+    /* Card Styles */
+    --card-bg: #ffffff;
+    --card-border: rgba(0, 0, 0, 0.03);
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+    --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+
+    /* Others */
+    --sidebar-width: 250px;
+    --sidebar-bg: rgba(255, 255, 255, 0.9);
+    --sidebar-active-bg: rgba(255, 210, 93, 0.15);
+    --sidebar-active-color: #dfa615;
+}
+
+.transition-all {
+    transition: all 0.3s ease;
+}
+
+.hover-bg-light:hover {
+    background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-warm);
+    color: var(--text-dark);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* Layout Structure */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+    padding: 1.5rem;
+    gap: 1.5rem;
+}
+
+/* Stunning Dashboard Main Area */
+.main-content {
+    flex: 1;
+    min-width: 0;
+    border-radius: 24px;
+    /* Optional: glass effect for main container background if needed */
+}
+
+/* Typography Overrides */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.5rem;
+}
+
+.text-small {
+    font-size: 0.875rem;
+}
+
+.text-tiny {
+    font-size: 0.75rem;
+}
+
+.ls-1 {
+    letter-spacing: 0.05em;
+}
+
+.line-height-1 {
+    line-height: 1;
+}
+
+/* Status Indicator */
+.status-indicator {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
+.status-indicator.online {
+    background-color: var(--success);
+}
+
+/* White Card System */
+.stunning-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    padding: 1.5rem;
+    /* Increased padding slightly for better spacing */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    /* Removed fixed height to wrap content */
+}
+
+.stunning-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.card-header-clean {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    /* Increased margin */
+}
+
+.card-title-small {
+    font-size: 1rem;
+    /* Slightly larger title */
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+/* Fix Breadcrumb Divider */
+.breadcrumb-item+.breadcrumb-item::before {
+    content: var(--bs-breadcrumb-divider, "/") !important;
+    font-family: system-ui, -apple-system, sans-serif;
+    /* Reset font to avoid weird artifact rendering */
+}
+
+/* Sidebar Styles */
+.sidebar-modern {
+    width: var(--sidebar-width);
+    background: var(--sidebar-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 3rem);
+    /* Full height minus margins */
+    position: sticky;
+    top: 1.5rem;
+    z-index: 50;
+}
+
+.sidebar-logo-area {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-bottom: 2rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.sidebar-logo-img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.sidebar-brand {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.nav-section-title {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--text-light);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin: 1.5rem 0 0.75rem 0.75rem;
+}
+
+.nav-item-modern {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    margin-bottom: 0.25rem;
+}
+
+.nav-item-modern:hover {
+    background: transparent;
+    color: var(--text-dark);
+}
+
+.nav-item-modern.active {
+    background: transparent;
+    color: var(--sidebar-active-color);
+    font-weight: 700;
+}
+
+.nav-item-modern i {
+    width: 20px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+/* Metric Cards V2 */
+.metric-v2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.metric-v2-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: rgba(255, 210, 93, 0.15);
+    color: #dfa615;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+}
+
+.metric-v2-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.2;
+    margin-top: 0.5rem;
+}
+
+.metric-v2-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Badges */
+.badge-gold-light {
+    background: rgba(255, 210, 93, 0.1);
+    color: #bfa615;
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 20px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Header Specific */
+.header-inner {
+    padding: 0.75rem 1.5rem !important;
+}
+
+.welcome-text {
+    border-left: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dropdown-toggle-hide-arrow::after {
+    display: none;
+}

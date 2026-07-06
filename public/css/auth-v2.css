@@ -1,0 +1,303 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-yellow: #FFD25D;
+    --primary-yellow-hover: #ffc933;
+    --bg-warm: #F9F7F2;
+    --text-dark: #2D2D2D;
+    --text-muted: #757575;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --border-soft: rgba(0, 0, 0, 0.05);
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: #A6ADBA;
+    /* Outer background like the mockup */
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.position-relative {
+    position: relative;
+}
+
+.auth-container {
+    width: 95%;
+    max-width: 1200px;
+    height: 85vh;
+    background: linear-gradient(135deg, #fdfcfb 0%, #F9F0D1 100%);
+    border-radius: 40px;
+    display: flex;
+    overflow: hidden;
+    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.15);
+}
+
+/* Left Panel - Form */
+.auth-form-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem;
+    position: relative;
+}
+
+/* Logo Styles */
+.logo-right {
+    border-radius: 20px;
+    display: block;
+    max-height: 80px;
+    width: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.auth-form-content {
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.auth-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.auth-subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.form-control-custom {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 1px solid transparent;
+    border-radius: 50px;
+    background-color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+.form-control-custom:focus {
+    outline: none;
+    border-color: var(--primary-yellow);
+    box-shadow: 0 0 0 4px rgba(255, 210, 93, 0.2);
+}
+
+.password-toggle {
+    position: absolute;
+    right: 1.5rem;
+    /* Moved slightly more left to be safely inside the pill */
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 1rem;
+    background: none;
+    border: none;
+    padding: 0;
+    line-height: 1;
+    z-index: 10;
+}
+
+.password-toggle:hover {
+    color: var(--text-dark);
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--primary-yellow);
+    border: none;
+    border-radius: 50px;
+    color: var(--text-dark);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.btn-submit:hover {
+    background-color: var(--primary-yellow-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 210, 93, 0.3);
+}
+
+/* Social Login */
+.social-login {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-social {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: white;
+    border: 1px solid var(--border-soft);
+    border-radius: 50px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-social:hover {
+    background-color: #f9f9f9;
+    border-color: #ddd;
+}
+
+/* Right Panel - Image (Inset Panel) */
+.auth-image-panel {
+    flex: 1.1;
+    padding: 1.5rem;
+    /* Creates the inset effect */
+    display: flex;
+}
+
+.auth-image-panel-inner {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    border-radius: 30px;
+    background: url('../images/login_bg.jpg') center/cover no-repeat;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.2);
+}
+
+/* Glass Widgets */
+.glass-widget {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 1.25rem;
+    color: white;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    z-index: 5;
+}
+
+.logo-right {
+    border-radius: 15px;
+    display: block;
+    max-height: 70px;
+    width: auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    margin-bottom: auto;
+    background: white;
+    padding: 0.5rem;
+}
+
+/* Features List */
+.features-container {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-top: auto;
+    /* Push down */
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: white;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+}
+
+.feature-item:last-child {
+    margin-bottom: 0;
+}
+
+.feature-icon {
+    color: #FFD25D;
+    font-size: 0.9rem;
+}
+
+.auth-footer {
+    position: absolute;
+    bottom: 2rem;
+    left: 4rem;
+    right: 4rem;
+    display: flex;
+    justify-content: center;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.auth-footer a {
+    color: var(--text-dark);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .auth-image-panel {
+        display: none;
+    }
+
+    .auth-form-panel {
+        padding: 2rem;
+    }
+
+    .auth-logo-top {
+        left: 2rem;
+    }
+
+    .auth-footer {
+        left: 2rem;
+        right: 2rem;
+    }
+}
+
+.info-card-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #2D2D2D;
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
