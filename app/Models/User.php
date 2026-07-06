@@ -79,6 +79,11 @@ class User extends Authenticatable
         'logout_at' => 'datetime',
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function scopeActive($query)
 {
     return $query->where('status', 'active'); // or whatever indicates "active"

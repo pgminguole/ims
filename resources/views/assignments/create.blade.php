@@ -15,7 +15,25 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('assignments.store') }}">
+                    
+                    <!-- Tabs -->
+                    <ul class="nav nav-tabs nav-fill mb-4 border-bottom-0" id="assignmentTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active rounded-top fw-bold" id="existing-tab" data-bs-toggle="tab" data-bs-target="#existing" type="button" role="tab" aria-controls="existing" aria-selected="true">
+                                <i class="fas fa-hand-pointer me-2"></i>Assign Existing Asset
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link rounded-top fw-bold" id="new-tab" data-bs-toggle="tab" data-bs-target="#new" type="button" role="tab" aria-controls="new" aria-selected="false">
+                                <i class="fas fa-plus-circle me-2"></i>Create & Assign New Asset
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="assignmentTabsContent">
+                        <!-- Assign Existing Asset Tab -->
+                        <div class="tab-pane fade show active" id="existing" role="tabpanel" aria-labelledby="existing-tab">
+<form method="POST" action="{{ route('assignments.store') }}">
                         @csrf
 
                         <div class="row g-3">
@@ -152,6 +170,109 @@
                             </div>
                         </div>
                     </form>
+                        </div>
+
+                        <!-- Create & Assign New Asset Tab -->
+                        <div class="tab-pane fade" id="new" role="tabpanel" aria-labelledby="new-tab">
+                            <form action="{{ route('assignments.create-asset') }}" method="POST">
+                                @csrf
+                                <div class="row g-3">
+                                    @if(auth()->user()->hasRole('admin') || auth()->user()->hasAssignedRole('super_admin'))
+                                     <div class="col-md-12">
+                                        <label class="form-label text-small fw-bold text-uppercase text-muted">Record Type <span class="text-danger">*</span></label>
+                                        <select class="form-select form-select-lg" name="record_type" required>
+                                            <option value="assignment">Official Assignment</option>
+                                            <option value="inventory">Inventory Collection</option>
+                                        </select>
+                                    </div>
+                                    @endif
+
+                                    <div class="col-md-6">
+                                        <label for="assignment_target_new" class="form-label">Assignment Target <span class="text-danger">*</span></label>
+                                        <select class="form-select @error('assignment_target') is-invalid @enderror" 
+                                                id="assignment_target_new" 
+                                                name="assignment_target" 
+                                                required>
+                                            <option value="">Select Target Type</option>
+                                            <option value="user" {{ old('assignment_target') == 'user' ? 'selected' : '' }}>User</option>
+                                            <option value="court" {{ old('assignment_target') == 'court' ? 'selected' : '' }}>Court</option>
+                                            <option value="office" {{ old('assignment_target') == 'office' ? 'selected' : '' }}>Office / Department</option>
+                                            <option value="region" {{ old('assignment_target') == 'region' ? 'selected' : '' }}>Region</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="target_id_new" class="form-label">Select Target <span class="text-danger">*</span></label>
+                                        <select class="form-select @error('target_id') is-invalid @enderror" 
+                                                id="target_id_new" 
+                                                name="target_id" 
+                                                required disabled>
+                                            <option value="">Select target type first...</option>
+                                        </select>
+                                        <div id="targetHelp_new" class="form-text text-muted"></div>
+                                    </div>
+
+                                     <div class="col-md-6">
+                                        <label class="form-label text-small fw-bold text-uppercase text-muted">Category <span class="text-danger">*</span></label>
+                                        <select class="form-select" name="category_id" required>
+                                            <option value="">Select Category...</option>
+                                            @foreach($categories ?? [] as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-small fw-bold text-uppercase text-muted">Brand / Model</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="brand" placeholder="Brand (e.g. HP)">
+                                            <input type="text" class="form-control" name="model" placeholder="Model (e.g. EliteBook)">
+                                        </div>
+                                    </div>
+                                     <div class="col-md-4">
+                                        <label class="form-label text-small fw-bold text-uppercase text-muted">Quantity</label>
+                                        <input type="number" class="form-control" name="quantity" value="1" min="1" max="50">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label text-small fw-bold text-uppercase text-muted">Condition</label>
+                                         <select class="form-select" name="condition">
+                                            <option value="excellent">Excellent</option>
+                                            <option value="good">Good</option>
+                                            <option value="fair">Fair</option>
+                                            <option value="poor">Poor</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label text-small fw-bold text-uppercase text-muted">Assigned Type</label>
+                                        <select class="form-select" name="assigned_type" required>
+                                            <option value="judge">Judge</option>
+                                            <option value="staff">Staff</option>
+                                            <option value="department">Department</option>
+                                            <option value="court">Court</option>
+                                            <option value="office">Office</option>
+                                            <option value="region">Region</option>
+                                        </select>
+                                    </div>
+                                     <div class="col-md-12">
+                                        <label class="form-label text-small fw-bold text-uppercase text-muted">Assigned Date</label>
+                                        <input type="date" class="form-control" name="assigned_date" value="{{ date('Y-m-d') }}">
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label text-small fw-bold text-uppercase text-muted">Notes</label>
+                                        <textarea class="form-control" name="comments" rows="2" placeholder="Start typing..."></textarea>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="d-flex gap-2 pt-3">
+                                            <button type="submit" class="btn btn-primary px-4">
+                                                <i class="fas fa-plus-circle me-2"></i>Create & Assign Asset
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -182,6 +303,53 @@
     const nextYear = new Date();
     nextYear.setFullYear(nextYear.getFullYear() + 1);
     document.getElementById('expected_return_date').value = nextYear.toISOString().split('T')[0];
+
+    // Target data
+    const users = @json($users);
+    const courts = @json($courts);
+    const offices = @json($offices);
+    const regions = @json($regions);
+
+    // Target selection for new asset tab
+    const assignmentTargetNew = document.getElementById('assignment_target_new');
+    const targetIdNew = document.getElementById('target_id_new');
+    const targetHelpNew = document.getElementById('targetHelp_new');
+
+    if (assignmentTargetNew && targetIdNew) {
+        assignmentTargetNew.addEventListener('change', function() {
+            targetIdNew.innerHTML = '<option value="">Select target...</option>';
+            targetIdNew.disabled = !this.value;
+            targetHelpNew.textContent = '';
+
+            switch(this.value) {
+                case 'user':
+                    users.forEach(u => {
+                        targetIdNew.add(new Option(`${u.first_name} ${u.last_name} (${u.email})`, u.id));
+                    });
+                    targetHelpNew.textContent = 'Select the specific user receiving the asset';
+                    break;
+                case 'court':
+                    courts.forEach(c => {
+                        targetIdNew.add(new Option(c.name, c.id));
+                    });
+                    targetHelpNew.textContent = 'Select the court receiving the asset';
+                    break;
+                case 'office':
+                    offices.forEach(o => {
+                        targetIdNew.add(new Option(o.name, o.id));
+                    });
+                    targetHelpNew.textContent = 'Select the office or department receiving the asset';
+                    break;
+                case 'region':
+                    regions.forEach(r => {
+                        targetIdNew.add(new Option(r.name, r.id));
+                    });
+                    targetHelpNew.textContent = 'Select the region receiving the asset';
+                    break;
+            }
+        });
+    }
+
 </script>
 @endpush
 @endsection

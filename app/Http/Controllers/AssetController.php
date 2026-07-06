@@ -516,8 +516,7 @@ public function downloadTemplate()
         }
 
         // Force region_id for regional admins
-        // Force region_id for regional admins
-        if (auth()->user()->region_id && auth()->user()->hasRole('admin') && !auth()->user()->hasAssignedRole('super_admin')) {
+        if (auth()->user()->hasRole('rao')) {
             $validated['region_id'] = auth()->user()->region_id;
         }
 

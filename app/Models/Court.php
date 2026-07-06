@@ -14,6 +14,7 @@ class Court extends Model
  protected $table = 'courts';
     protected $fillable = [
         'name', 
+        'slug',
         'type', 
         'code', 
         'region_id', 
@@ -33,6 +34,33 @@ class Court extends Model
         'presiding_judge' => 'integer',
         'registry_officer' => 'integer',
     ];
+
+    /**
+     * Boot function from Laravel.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($court) {
+            if (empty($court->slug)) {
+                $baseSlug = \Illuminate\Support\Str::slug($court->name);
+                $slug = $baseSlug;
+                $counter = 1;
+
+                while (static::where('slug', $slug)->exists()) {
+                    $slug = $baseSlug . '-' . $counter++;
+                }
+                
+                $court->slug = $slug;
+            }
+        });
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     /**
      * Relationships

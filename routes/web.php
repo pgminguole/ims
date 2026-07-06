@@ -178,6 +178,7 @@ Route::delete('/offices/{office}/remove-asset', [OfficeController::class, 'remov
     Route::get('/assignments', [AssignmentController::class, 'index'])->name('assignments.index');
     Route::get('/assignments/create', [AssignmentController::class, 'create'])->name('assignments.create');
     Route::post('/assignments/create', [AssignmentController::class, 'store'])->name('assignments.store');
+    Route::post('/assignments/create-asset', [AssignmentController::class, 'createAsset'])->name('assignments.create-asset');
     Route::get('/assignments/history', [AssignmentController::class, 'history'])->name('assignments.history');
     
     // Bulk Model Assignment Routes

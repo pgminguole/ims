@@ -437,7 +437,10 @@ private function getTargetName($type, $id)
         $offices = $officesQuery->get();
         $regions = $regionsQuery->get();
         
-        return view('assignments.create', compact('availableAssets', 'users', 'courts', 'offices', 'regions'));
+        $categories = Category::whereNull('parent_id')->orderBy('name')->get();
+        $subcategories = Category::whereNotNull('parent_id')->orderBy('name')->get();
+
+        return view('assignments.create', compact('availableAssets', 'users', 'courts', 'offices', 'regions', 'categories', 'subcategories'));
     }
 
     public function store(Request $request)
@@ -497,6 +500,110 @@ private function getTargetName($type, $id)
         });
 
         return redirect()->route('assignments.index')->with('success', 'Asset assigned successfully.');
+    }
+
+    public function createAsset(Request $request)
+    {
+        $validated = $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'brand' => 'nullable|string|max:255',
+            'model' => 'nullable|string|max:255',
+            'quantity' => 'required|integer|min:1|max:50',
+            'assigned_date' => 'required|date',
+            'condition' => 'required|in:excellent,good,fair,poor',
+            'warranty_months' => 'nullable|integer|min:0',
+            'purchase_date' => 'nullable|date',
+            'purchase_price' => 'nullable|numeric|min:0',
+            'comments' => 'nullable|string',
+            'record_type' => 'nullable|in:assignment,inventory',
+            'assignment_target' => 'required|in:user,court,office,region',
+            'target_id' => 'required',
+            'assigned_type' => 'required|in:judge,staff,department,court,office,region'
+        ]);
+
+        $createdCount = 0;
+        
+        DB::transaction(function () use ($validated, &$createdCount) {
+            $category = Category::find($validated['category_id']);
+            $currentUser = auth()->user();
+            $isRegionalAdmin = $currentUser->region_id && $currentUser->hasRole('rao');
+            
+            // Generate unique asset tags for the entire batch
+            $tags = Asset::generateNextTags($validated['category_id'], $validated['quantity']);
+
+            for ($i = 0; $i < $validated['quantity']; $i++) {
+                $assetTag = $tags[$i];
+                
+                // Generate asset name from category or model/brand
+                if (!empty($validated['model'])) {
+                    $assetName = $validated['model'];
+                } elseif (!empty($validated['brand'])) {
+                    $assetName = $validated['brand'] . ' ' . $category->name;
+                } else {
+                    $assetName = $category->name;
+                }
+                
+                $assetData = [
+                    'asset_name' => $assetName,
+                    'slug' => Str::slug($assetName . '-' . $assetTag) . '-' . uniqid(),
+                    'asset_tag' => $assetTag,
+                    'serial_number' => 'SN-' . strtoupper(Str::random(3)) . '-' . strtoupper(Str::random(4)),
+                    'category_id' => $validated['category_id'],
+                    'brand' => $validated['brand'] ?? null,
+                    'asset_id' => 'AST-' . strtoupper(uniqid()),
+                    'model' => $validated['model'] ?? null,
+                    'assigned_date' => $validated['assigned_date'],
+                    'condition' => $validated['condition'],
+                    'warranty_months' => $validated['warranty_months'] ?? null,
+                    'purchase_date' => $validated['purchase_date'] ?? null,
+                    'purchase_price' => $validated['purchase_price'] ?? null,
+                    'status' => 'assigned',
+                    'assigned_type' => $validated['assigned_type'],
+                    'comments' => $validated['comments'] ?? null,
+                    'created_by' => auth()->id(),
+                    'region_id' => $isRegionalAdmin ? $currentUser->region_id : null,
+                    'record_type' => $isRegionalAdmin ? 'inventory' : ($validated['record_type'] ?? 'assignment')
+                ];
+
+                switch ($validated['assignment_target']) {
+                    case 'user':
+                        $assetData['assigned_to'] = $validated['target_id'];
+                        if (!$isRegionalAdmin) {
+                            $assetData['court_id'] = User::find($validated['target_id'])->court_id ?? null;
+                        }
+                        break;
+                    case 'court':
+                        $assetData['court_id'] = $validated['target_id'];
+                        break;
+                    case 'office':
+                        $assetData['office_id'] = $validated['target_id'];
+                        break;
+                    case 'region':
+                        $assetData['region_id'] = $validated['target_id'];
+                        break;
+                }
+
+                $asset = Asset::create($assetData);
+
+                $deviceDescription = ($validated['brand'] ?? null) && ($validated['model'] ?? null)
+                    ? "{$validated['brand']} {$validated['model']}" 
+                    : $category->name;
+
+                $targetName = $this->getTargetName($validated['assignment_target'], $validated['target_id']);
+
+                AssetHistory::create([
+                    'asset_id' => $asset->id,
+                    'action' => 'assigned',
+                    'description' => "New {$deviceDescription} created and assigned to {$validated['assignment_target']}: {$targetName}. Comments: " . ($validated['comments'] ?? 'None'),
+                    'performed_by' => auth()->id(),
+                    'performed_at' => now()
+                ]);
+
+                $createdCount++;
+            }
+        });
+
+        return redirect()->route('assignments.index')->with('success', "Successfully created and assigned {$createdCount} asset(s).");
     }
 
     public function bulkAssign(Request $request)

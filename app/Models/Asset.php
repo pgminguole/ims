@@ -55,6 +55,11 @@ class Asset extends Model
         });
     }
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     protected $fillable = [
         'slug',
         'asset_id',

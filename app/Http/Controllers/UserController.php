@@ -471,7 +471,7 @@ public function show(User $user)
 {
     $this->authorize('view_users');
     $currentUser = auth()->user();
-    if ($currentUser->region_id && $currentUser->hasRole('admin') && $user->region_id !== $currentUser->region_id) {
+    if ($currentUser->hasRole('rao') && $user->region_id !== $currentUser->region_id) {
         abort(403, 'Unauthorized access to user in another region.');
     }
 
@@ -750,7 +750,7 @@ public function show(User $user)
     {
         $this->authorize('edit_users');
         $currentUser = auth()->user();
-        if ($currentUser->region_id && $currentUser->hasRole('admin') && $user->region_id !== $currentUser->region_id) {
+        if ($currentUser->hasRole('rao') && $user->region_id !== $currentUser->region_id) {
             abort(403, 'Unauthorized access to user in another region.');
         }
 
@@ -790,7 +790,7 @@ public function show(User $user)
         $user->update($validated);
 
         // Enforce Regional Admin Scoping
-        if ($currentUser->region_id && $currentUser->hasRole('admin')) {
+        if ($currentUser->hasRole('rao')) {
              $user->region_id = $currentUser->region_id;
              $user->save();
              
@@ -809,7 +809,7 @@ public function show(User $user)
     {
         $this->authorize('delete_users');
         $currentUser = auth()->user();
-        if ($currentUser->region_id && $currentUser->hasRole('admin') && $user->region_id !== $currentUser->region_id) {
+        if ($currentUser->hasRole('rao') && $user->region_id !== $currentUser->region_id) {
             abort(403, 'Unauthorized access to user in another region.');
         }
 

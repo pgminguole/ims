@@ -398,7 +398,7 @@ public function changeDtsDate(Request $request)
         ]);
 
         $user = auth()->user();
-        if ($user->region_id && $user->hasRole('admin') && !auth()->user()->hasAssignedRole('super_admin')) {
+        if ($user->hasRole('rao')) {
             $validated['region_id'] = $user->region_id;
         }
 
@@ -415,7 +415,7 @@ public function changeDtsDate(Request $request)
 {
     $this->authorize('view_courts');
     $user = auth()->user();
-    if ($user->region_id && $user->hasRole('admin') && !auth()->user()->hasAssignedRole('super_admin') && $court->region_id !== $user->region_id) {
+    if ($user->hasRole('rao') && $court->region_id !== $user->region_id) {
         abort(403, 'Unauthorized access to court in another region.');
     }
 
@@ -617,7 +617,7 @@ public function removeDts(Request $request, Court $court)
     {
         $this->authorize('edit_courts');
         $user = auth()->user();
-        if ($user->region_id && $user->hasRole('admin') && !auth()->user()->hasAssignedRole('super_admin') && $court->region_id !== $user->region_id) {
+        if ($user->hasRole('rao') && $court->region_id !== $user->region_id) {
             abort(403, 'Unauthorized access to court in another region.');
         }
 
@@ -636,7 +636,7 @@ public function removeDts(Request $request, Court $court)
     {
         $this->authorize('edit_courts');
         $user = auth()->user();
-        if ($user->region_id && $user->hasRole('admin') && !auth()->user()->hasAssignedRole('super_admin') && $court->region_id !== $user->region_id) {
+        if ($user->hasRole('rao') && $court->region_id !== $user->region_id) {
             abort(403, 'Unauthorized access to court in another region.');
         }
         $validated = $request->validate([
@@ -652,7 +652,7 @@ public function removeDts(Request $request, Court $court)
         ]);
 
         $user = auth()->user();
-        if ($user->region_id && $user->hasRole('admin') && !auth()->user()->hasAssignedRole('super_admin')) {
+        if ($user->hasRole('rao')) {
              if (isset($validated['region_id']) && $validated['region_id'] != $user->region_id) {
                  abort(403, 'Cannot change court to another region.');
              }
@@ -668,7 +668,7 @@ public function removeDts(Request $request, Court $court)
     {
         $this->authorize('delete_courts');
         $user = auth()->user();
-        if ($user->region_id && $user->hasRole('admin') && !auth()->user()->hasAssignedRole('super_admin') && $court->region_id !== $user->region_id) {
+        if ($user->hasRole('rao') && $court->region_id !== $user->region_id) {
             abort(403, 'Unauthorized access to court in another region.');
         }
         $court->delete();

@@ -303,7 +303,7 @@ private function generateSerialNumber()
     {
         $this->authorize('view_offices');
         $user = auth()->user();
-        if ($user->region_id && $user->hasRole('admin') && !auth()->user()->hasAssignedRole('super_admin') && $office->region_id !== $user->region_id) {
+        if ($user->hasRole('rao') && $office->region_id !== $user->region_id) {
             abort(403, 'Unauthorized access to office in another region.');
         }
 
@@ -318,7 +318,7 @@ private function generateSerialNumber()
 
         // Get available assets for assignment
         $availableAssetsQuery = Asset::query();
-        if ($user->region_id && $user->hasRole('admin') && !auth()->user()->hasAssignedRole('super_admin')) {
+        if ($user->hasRole('rao')) {
             $availableAssetsQuery->where('region_id', $user->region_id);
         }
 
@@ -382,7 +382,7 @@ private function generateSerialNumber()
     {
         $this->authorize('edit_offices');
         $user = auth()->user();
-        if ($user->region_id && $user->hasRole('admin') && !auth()->user()->hasAssignedRole('super_admin') && $office->region_id !== $user->region_id) {
+        if ($user->hasRole('rao') && $office->region_id !== $user->region_id) {
             abort(403, 'Unauthorized access to office in another region.');
         }
 
@@ -399,7 +399,7 @@ private function generateSerialNumber()
             'manager_id' => 'nullable|exists:users,id',
         ]);
 
-        if ($user->region_id && $user->hasRole('admin') && !auth()->user()->hasAssignedRole('super_admin')) {
+        if ($user->hasRole('rao')) {
             if (isset($validated['region_id']) && $validated['region_id'] != $user->region_id) {
                 abort(403, 'Unauthorized access to another region.');
             }
@@ -417,7 +417,7 @@ private function generateSerialNumber()
     {
         $this->authorize('delete_offices');
         $user = auth()->user();
-        if ($user->region_id && $user->hasRole('admin') && !auth()->user()->hasAssignedRole('super_admin') && $office->region_id !== $user->region_id) {
+        if ($user->hasRole('rao') && $office->region_id !== $user->region_id) {
             abort(403, 'Unauthorized access to office in another region.');
         }
 

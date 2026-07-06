@@ -66,6 +66,11 @@ class Office extends Model
         return $slug;
     }
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     /**
      * The attributes that should be cast.
      *
