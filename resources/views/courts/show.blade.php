@@ -17,17 +17,17 @@
             <p class="text-tiny text-muted mb-0">{{ $court->code ?? 'No Code' }} • {{ isset($court->type) ? str_replace('_', ' ', ucfirst($court->type)) : 'N/A' }}</p>
         </div>
         <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-outline-dark rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#assignAssetModal">
-                <i class="fas fa-plus me-1"></i> Assign Asset
+            <button class="btn btn-light border-0 shadow-sm rounded-pill px-3 text-dark fw-medium" data-bs-toggle="modal" data-bs-target="#assignAssetModal">
+                <i class="fas fa-link me-1 text-primary"></i> Assign Asset
             </button>
-            <button class="btn btn-sm btn-outline-success rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#createAssetModal">
+            <button class="btn btn-primary shadow-sm rounded-pill px-3 fw-medium" data-bs-toggle="modal" data-bs-target="#createAssetModal">
                 <i class="fas fa-plus-circle me-1"></i> New Asset
             </button>
-            <a href="{{ route('courts.edit', $court) }}" class="btn btn-sm btn-light border rounded-pill px-3">
-                <i class="fas fa-edit me-1"></i> Edit
+            <a href="{{ route('courts.edit', $court) }}" class="btn btn-light border-0 shadow-sm rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;" title="Edit Court" data-bs-toggle="tooltip">
+                <i class="fas fa-edit text-muted"></i>
             </a>
-            <button type="button" class="btn btn-sm btn-light border rounded-pill px-3" onclick="printAssetDetails()">
-                <i class="fas fa-print"></i>
+            <button type="button" class="btn btn-light border-0 shadow-sm rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;" onclick="printAssetDetails()" title="Print Summary" data-bs-toggle="tooltip">
+                <i class="fas fa-print text-muted"></i>
             </button>
         </div>
     </div>
@@ -94,52 +94,52 @@
                 </div>
                 <div class="p-4 pt-1">
                      <div class="row g-3 text-center">
-                        <div class="col-4 col-md-3">
-                            <div class="p-2 border rounded bg-light">
-                                <div class="text-large fw-bold text-dark">{{ $court->total_assets ?? 0 }}</div>
-                                <div class="text-tiny text-muted text-uppercase">Total</div>
+                        <div class="col-6 col-md-3">
+                            <div class="p-3 border-0 shadow-sm rounded-4 bg-primary-subtle h-100 d-flex flex-column justify-content-center">
+                                <div class="fs-3 fw-bolder text-primary mb-1">{{ $court->total_assets ?? 0 }}</div>
+                                <div class="text-tiny fw-bold text-primary text-uppercase opacity-75">Total Assets</div>
                             </div>
                         </div>
-                        <div class="col-4 col-md-3">
-                            <div class="p-2 border rounded bg-white">
-                                <div class="text-large fw-bold text-dark">{{ $court->computers ?? 0 }}</div>
-                                <div class="text-tiny text-muted text-uppercase">Computers</div>
+                        <div class="col-6 col-md-3">
+                            <div class="p-3 border-0 shadow-sm rounded-4 bg-info-subtle h-100 d-flex flex-column justify-content-center">
+                                <div class="fs-3 fw-bolder text-info mb-1">{{ $court->computers ?? 0 }}</div>
+                                <div class="text-tiny fw-bold text-info text-uppercase opacity-75">Computers</div>
                             </div>
                         </div>
-                        <div class="col-4 col-md-3">
-                            <div class="p-2 border rounded bg-white">
-                                <div class="text-large fw-bold text-dark">{{ $court->laptops ?? 0 }}</div>
-                                <div class="text-tiny text-muted text-uppercase">Laptops</div>
+                        <div class="col-6 col-md-3">
+                            <div class="p-3 border-0 shadow-sm rounded-4 bg-success-subtle h-100 d-flex flex-column justify-content-center">
+                                <div class="fs-3 fw-bolder text-success mb-1">{{ $court->laptops ?? 0 }}</div>
+                                <div class="text-tiny fw-bold text-success text-uppercase opacity-75">Laptops</div>
                             </div>
                         </div>
-                        <div class="col-4 col-md-3">
-                            <div class="p-2 border rounded bg-white">
-                                <div class="text-large fw-bold text-dark">{{ $court->printers ?? 0 }}</div>
-                                <div class="text-tiny text-muted text-uppercase">Printers</div>
+                        <div class="col-6 col-md-3">
+                            <div class="p-3 border-0 shadow-sm rounded-4 bg-warning-subtle h-100 d-flex flex-column justify-content-center">
+                                <div class="fs-3 fw-bolder text-warning mb-1">{{ $court->printers ?? 0 }}</div>
+                                <div class="text-tiny fw-bold text-warning text-uppercase opacity-75">Printers</div>
                             </div>
                         </div>
-                        <div class="col-4 col-md-3">
-                            <div class="p-2 border rounded bg-white">
-                                <div class="text-large fw-bold text-dark">{{ $court->scanners ?? 0 }}</div>
-                                <div class="text-tiny text-muted text-uppercase">Scanners</div>
+                        <div class="col-6 col-md-3">
+                            <div class="p-3 border-0 shadow-sm rounded-4 bg-dark-subtle h-100 d-flex flex-column justify-content-center">
+                                <div class="fs-3 fw-bolder text-dark mb-1">{{ $court->scanners ?? 0 }}</div>
+                                <div class="text-tiny fw-bold text-dark text-uppercase opacity-75">Scanners</div>
                             </div>
                         </div>
-                         <div class="col-4 col-md-3">
-                            <div class="p-2 border rounded bg-white">
-                                <div class="text-large fw-bold text-dark">{{ $court->photocopiers ?? 0 }}</div>
-                                <div class="text-tiny text-muted text-uppercase">Copiers</div>
+                        <div class="col-6 col-md-3">
+                            <div class="p-3 border-0 shadow-sm rounded-4 bg-primary-subtle h-100 d-flex flex-column justify-content-center">
+                                <div class="fs-3 fw-bolder text-primary mb-1">{{ $court->photocopiers ?? 0 }}</div>
+                                <div class="text-tiny fw-bold text-primary text-uppercase opacity-75">Copiers</div>
                             </div>
                         </div>
-                         <div class="col-4 col-md-3">
-                            <div class="p-2 border rounded bg-white">
-                                <div class="text-large fw-bold text-dark">{{ $court->ups ?? 0 }}</div>
-                                <div class="text-tiny text-muted text-uppercase">UPS</div>
+                        <div class="col-6 col-md-3">
+                            <div class="p-3 border-0 shadow-sm rounded-4 bg-danger-subtle h-100 d-flex flex-column justify-content-center">
+                                <div class="fs-3 fw-bolder text-danger mb-1">{{ $court->ups ?? 0 }}</div>
+                                <div class="text-tiny fw-bold text-danger text-uppercase opacity-75">UPS</div>
                             </div>
                         </div>
-                         <div class="col-4 col-md-3">
-                            <div class="p-2 border rounded bg-white">
-                                <div class="text-large fw-bold text-dark">{{ $court->dts_count ?? $court->dts->count() ?? 0 }}</div>
-                                <div class="text-tiny text-muted text-uppercase">DTS</div>
+                        <div class="col-6 col-md-3">
+                            <div class="p-3 border-0 shadow-sm rounded-4 bg-secondary-subtle h-100 d-flex flex-column justify-content-center">
+                                <div class="fs-3 fw-bolder text-secondary mb-1">{{ $court->dts_count ?? $court->dts->count() ?? 0 }}</div>
+                                <div class="text-tiny fw-bold text-secondary text-uppercase opacity-75">DTS Systems</div>
                             </div>
                         </div>
                      </div>
