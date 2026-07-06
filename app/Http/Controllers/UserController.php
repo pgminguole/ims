@@ -439,10 +439,9 @@ private function generateSerialNumber()
         $query->where('status', $request->status);
     }
 
-    $users = $query->latest()->paginate(20)->withQueryString();
-
     // Statistics based on custom roles
     $statsQuery = clone $query;
+    $users = $query->latest()->paginate(20)->withQueryString();
 
     $totalUsers = (clone $statsQuery)->count();
     $activeUsers = (clone $statsQuery)->where('status', 'active')->count();

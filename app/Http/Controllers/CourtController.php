@@ -323,14 +323,13 @@ public function changeDtsDate(Request $request)
         $query->where('is_active', $request->is_active);
     }
 
+    // Statistics - clone before pagination mutates query
+    $statsQuery = clone $query;
     $courts = $query->latest()->paginate(20)->withQueryString();
     
     $queries = \DB::getQueryLog();
     Log::info('All executed queries:', $queries);
     Log::info('Courts found: ' . $courts->total());
-
-    // Statistics - also use withDeviceCounts for consistency
-    $statsQuery = clone $query;
 
     $totalCourts = (clone $statsQuery)->count();
     $activeCourts = (clone $statsQuery)->where('is_active', true)->count();
