@@ -1,16 +1,13 @@
-Generated: /Users/apple/Herd/projects/ims/database/seeders/JudgeSeeder.php
-Total judges: 448
-  SC    Supreme Court                   18
-  CA    Court of Appeal                 61
-  HC    High Court                      148
-  CC    Circuit Court Judge             52
-  PM    Professional Magistrate         107
-  SCM   Senior Career Magistrate        42
-  CM    Career Magistrate               20
-sional Magistrate    : 107
- *   Senior Career Magistrate   : 42
- *   Career Magistrate          : 20
- *
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use App\Models\Role;
+
+/**
  * Emails auto-generated from names (first.last@jsg.gov.gh).
  * Known existing accounts are matched by email via updateOrCreate.
  * Default password : Jsg@Judge2025!

@@ -1,5 +1,10 @@
-Generated /Users/apple/Herd/projects/ims/database/seeders/CourtSeeder.php with 360 courts.
-nate\Database\Seeder;
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Court;
+use App\Models\Region;
+use Illuminate\Database\Seeder;
 
 class CourtSeeder extends Seeder
 {
