@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('courts', function (Blueprint $table) {
-            $table->string('slug')->nullable()->unique()->after('name');
-        });
+        if (!Schema::hasColumn('courts', 'slug')) {
+            Schema::table('courts', function (Blueprint $table) {
+                $table->string('slug')->nullable()->unique()->after('name');
+            });
+        }
 
         // Generate slugs for existing courts
         $courts = \App\Models\Court::all();

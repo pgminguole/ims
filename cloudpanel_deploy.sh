@@ -93,26 +93,6 @@ php artisan migrate --force
 echo "🌱 Seeding database..."
 php artisan db:seed --force
 
-# Populate Slugs (Standard for this project)
-echo "🐌 Populating slugs..."
-php artisan tinker << 'TINKER_EOF'
-foreach(File::files(app_path('Models')) as \$file) {
-    \$class = 'App\\\\Models\\\\' . \$file->getBasename('.php');
-    if (class_exists(\$class)) {
-        try {
-            \$reflection = new ReflectionClass(\$class);
-            if (!\$reflection->isAbstract() && \$reflection->isSubclassOf(\\\\Illuminate\\\\Database\\\\Eloquent\\\\Model::class)) {
-                echo "Populating slugs for \$class...\\n";
-                \$class::all()->each(function(\$model) {
-                    \$model->save();
-                });
-            }
-        } catch (\\Exception \$e) {
-            echo "Error for \$class: " . \$e->getMessage() . "\\n";
-        }
-    }
-}
-TINKER_EOF
 
 # Restart queue workers
 echo "🔄 Restarting queue workers..."
